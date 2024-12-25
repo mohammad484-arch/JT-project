@@ -1,0 +1,130 @@
+/*@!Encoding:1252*/
+
+
+/*on sysvar_update PARK::APC
+{
+  if(@this==1)
+  {
+  
+    @sysvar ::REMOTE::RPA=1;
+    write("Light_ON");
+    
+  }
+  else
+     {
+    @sysvar::REMOTE::RPA=0;
+      write("Light_OFF");
+    }
+}
+
+on sysvar_update ENDA::FIRST
+{
+  if(@this==1)
+  {
+    setTimer(t1,500);
+  }
+   else
+    {
+       @sysvar::ENDA::SECOND=0;
+      write("Light_OFF");
+      cancelTimer(t1);
+    }
+  }
+on timer t1
+{
+  
+ if(@sysvar ::ENDA::SECOND==1)
+  {
+   @sysvar ::ENDA::SECOND=0;
+    write("OFF");
+  }
+    
+  else if(@sysvar ::ENDA::SECOND==0)
+   {
+      @sysvar ::ENDA::SECOND=1;
+    write("ON");
+   }
+   
+  
+    setTimer(t1,500);
+}*/
+
+/*on sysvar_update EVM::DEM
+{
+  if(@this==1)
+  {
+    @sysvar::EVM::DTC=2;
+  }
+  else
+  {
+    @sysvar::EVM::DTC=5;
+  }
+}*/
+
+
+variables
+{
+
+message 0x100 msg1;
+message 0x400 msg3;
+}
+on key 'k'
+{
+  
+msg1.byte(0)=0x0;
+msg1.byte(1)=0x1;
+msg1.byte(2)=0x2;
+  msg1.dlc=8;
+  msg1.id=0x100;
+  msg1.CAN=1;
+output(msg1);
+  write("msg1 is transmitted");
+  
+}
+on message CAN1.0x200
+{
+if(this.byte(6)==0x8)
+{ 
+msg3.byte(0)=0x0;
+msg3.byte(1)=0x1;
+msg3.byte(2)=0x2;
+msg3.byte(5)=0x7;
+msg3.byte(7)=0x70;
+  msg3.dlc=8;
+  msg3.id=0x400;
+  msg3.CAN=1;
+output(msg3);
+  write("msg3 is transmitted");
+}
+}
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+    

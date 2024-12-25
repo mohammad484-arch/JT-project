@@ -1,0 +1,38 @@
+/*@!Encoding:1252*/
+/*includes
+{
+}
+variables
+{
+}
+on sysvar_update EVM::DTC
+{
+  if(@this==1)
+  {
+    @sysvar::EVM::DEM=2;
+  }
+  else
+  {
+    @sysvar::EVM::DTC=3;
+  }
+}*/
+  
+variables
+{
+  message 0x200 msg2;
+}
+on start
+{
+msg2.byte(0)=0x0;
+msg2.byte(1)=0x1;
+msg2.byte(2)=0x2;
+msg2.byte(6)=0x8;
+  msg2.dlc=8;    
+  msg2.id=0x200;
+  msg2.CAN=1;
+  output(msg2);
+  write("msg2 is transmitted");
+}
+  
+
+  
